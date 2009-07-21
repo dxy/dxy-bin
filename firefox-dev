@@ -1,0 +1,31 @@
+#!/bin/bash
+# launch script for a development/debug firefox profile.
+
+PROFILE_NAME=dev
+
+case $(uname -s) in
+  Linux)
+    FIREFOX_PATH=/usr/bin/firefox
+    PROFILE_INI_PATH="${HOME}/.mozilla/firefox/profiles.ini"
+  ;;
+  Darwin)
+    FIREFOX_PATH=/Applications/Firefox.app/Contents/MacOS/firefox
+    PROFILE_INI_PATH="${HOME}/Library/Application Support/Firefox/profiles.ini"
+  ;;
+  *)
+    echo 'unknown architecture'
+    exit 1
+  ;;
+esac
+
+[[ -x ${FIREFOX_PATH} ]] || exit 1
+[[ -r ${PROFILE_INI_PATH} ]] || exit 1
+
+grep -q ^Name=${PROFILE_NAME} "${PROFILE_INI_PATH}"
+if [[ ${?} -ne 0 ]]; then
+  echo 'profile not found' 
+  exit 1
+fi
+
+exec ${FIREFOX_PATH} -no-remote -P ${PROFILE_NAME} &
+
