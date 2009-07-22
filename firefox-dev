@@ -23,7 +23,7 @@ esac
 
 grep -q ^Name=${PROFILE_NAME} "${PROFILE_INI_PATH}"
 if [[ ${?} -ne 0 ]]; then
-  echo 'profile not found' 
+  echo 'profile not found'
   exit 1
 fi
 
