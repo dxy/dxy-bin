@@ -1,0 +1,40 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+"""Runs pylint and print formatted output for flymake.
+
+This script is meant to be executed by flymake in Emacs.
+cf. http://www.emacswiki.org/emacs/PythonMode
+"""
+
+import re
+import sys
+
+from subprocess import *
+
+def main():
+  p = Popen("pylint -f parseable -r n --disable-msg-cat=C,R %s" %
+            sys.argv[1], shell = True, stdout = PIPE).stdout
+
+  for line in p.readlines():
+    match = re.search("\\[([WE])(, (.+?))?\\]", line)
+    if match:
+      kind = match.group(1)
+      func = match.group(3)
+
+      if kind == "W":
+        msg = "Warning"
+      else:
+        msg = "Error"
+
+      if func:
+        line = re.sub("\\[([WE])(, (.+?))?\\]", "%s (%s):" % (msg, func), line)
+      else:
+        line = re.sub("\\[([WE])?\\]", "%s:" % msg, line)
+    print line,
+
+  p.close()
+
+if __name__ == '__main__':
+  main()
+
