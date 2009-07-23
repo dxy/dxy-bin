@@ -1,0 +1,21 @@
+#!/bin/bash
+
+GITHUB_USER=dxy
+
+usage() {
+  echo "Usage: ${0} GITHUB_REPOSITORY_NAME"
+}
+
+if [[ ${#} -ne 1 ]]; then
+  usage
+  exit 1
+fi 
+
+if [[ ! -x $(which git) ]]; then
+  echo 'git not found'  
+  exit 1
+fi
+
+REPO=${1}
+exec git clone git@github.com:${GITHUB_USER}/${REPO}.git ${REPO}
+
