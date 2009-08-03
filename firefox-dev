@@ -27,5 +27,5 @@ if [[ ${?} -ne 0 ]]; then
   exit 1
 fi
 
-exec ${FIREFOX_PATH} -no-remote -P ${PROFILE_NAME} &
+exec ${FIREFOX_PATH} -no-remote -P ${PROFILE_NAME}
 
