@@ -7,15 +7,15 @@ case $(uname -s) in
   Linux)
     FIREFOX_PATH=/usr/bin/firefox
     PROFILE_INI_PATH="${HOME}/.mozilla/firefox/profiles.ini"
-  ;;
+    ;;
   Darwin)
     FIREFOX_PATH=/Applications/Firefox.app/Contents/MacOS/firefox
     PROFILE_INI_PATH="${HOME}/Library/Application Support/Firefox/profiles.ini"
-  ;;
+    ;;
   *)
     echo 'unknown architecture'
     exit 1
-  ;;
+    ;;
 esac
 
 [[ -x ${FIREFOX_PATH} ]] || exit 1
