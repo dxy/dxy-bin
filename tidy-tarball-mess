@@ -1,0 +1,28 @@
+#!/bin/bash
+# Clear up scattered files extracted from a tarball by mistake.
+# Originally presented at http://d.hatena.ne.jp/paella/20090708/1247015732
+
+usage() {
+  echo "Usage: ${0} TARBALL"
+}
+
+tarball=${1}
+
+if (( ${#} != 1 )); then
+  usage
+  exit 1
+fi
+
+if [[ ! -r ${tarball} ]]; then
+  echo "${tarball} not found." >&2
+  exit 1
+fi
+
+# TODO(dxy): handle directories (maybe afterwards?)
+for file in $(tar tf "${tarball}"); do
+  if [[ -f "${file}" || -h "${file}" ]]; then
+    rm "${file}"
+  else
+    echo "skipping ${file}" >&2
+  fi
+done
