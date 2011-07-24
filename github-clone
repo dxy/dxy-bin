@@ -6,13 +6,13 @@ usage() {
   echo "Usage: ${0} GITHUB_REPOSITORY_NAME"
 }
 
-if [[ ${#} -ne 1 ]]; then
+if (( ${#} != 1 )); then
   usage
   exit 1
 fi 
 
 if [[ ! -x $(which git) ]]; then
-  echo 'git not found'  
+  echo 'git not found' 1>&2
   exit 1
 fi
 
