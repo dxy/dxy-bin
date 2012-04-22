@@ -13,6 +13,9 @@ import subprocess
 import sys
 
 def main():
+  # FIXME(dxy): pylint from Mac Ports understands -d but one on Ubuntu doesn't
+  # seem to. If you want to run this on Ubuntu as well, I should work around
+  # the difference between those two (e.g. use --disable-msg-cat for Ubuntu).
   commandline = 'pylint -f parseable -r n -d C,R %s' % sys.argv[1]
   proc = subprocess.Popen(shlex.split(commandline), stdout=subprocess.PIPE)
   (stdout, unused_stderr) = proc.communicate()
