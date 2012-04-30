@@ -1,0 +1,9 @@
+#!/usr/bin/python
+# Convert Celsius to Fahrenheit
+# http://en.wikipedia.org/wiki/Fahrenheit
+
+import sys
+
+celsius = float(sys.argv[1])
+fahrenheit = (celsius * 9 / 5) + 32
+print fahrenheit
