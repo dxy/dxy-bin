@@ -27,6 +27,7 @@ So you might want to try that on Linux/*BSD/Solaris.
 __author__ = 'dxy@acm.org (Daisuke Yabuki)'
 
 from optparse import OptionParser
+import sys
 
 
 class Phonetic(object):
@@ -90,7 +91,7 @@ class ExtendedPhonetic(Phonetic):
 
 
 def main():
-  usage = 'usage: $prog string'
+  usage = 'usage: %s string' % sys.argv[0]
   parser = OptionParser(usage=usage)
   (unused_options, args) = parser.parse_args()
   if len(args) != 1:
