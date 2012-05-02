@@ -1,0 +1,38 @@
+#!/bin/bash
+
+usage() {
+  echo "Usage: $(basename ${0}) pid"
+  exit 1
+}
+
+declare -a pids
+
+find_child_processes() {
+  local ppid=${1}
+  local pid
+
+  for pid in $(ps -ef | awk "{if ( \$3 == ${ppid} ) { print \$2 }}"); do
+    #echo ${pid}
+    pids=("${pids[@]}" ${pid})
+    find_child_processes ${pid}
+  done
+}
+
+scan_pids() {
+  local num_of_pids=${#pids}
+  #echo $num_of_pids
+  for ((i=0; i<$num_of_pids; i++)); do
+    echo ${pids[${i}]}
+  done
+}
+
+if [[ ${#} -ne 1 ]];then
+  usage
+fi
+
+# push the given number in the array
+pids=("${pids[@]}" ${1})
+# find child processes of the process recursively
+find_child_processes ${1}
+# do something about the array of pid's
+scan_pids
