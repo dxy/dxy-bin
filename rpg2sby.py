@@ -100,7 +100,7 @@ class CombinedRoutes:
     self._TIMETABLE_LENGTH = 24
     self._TIMETABLE_MAX_INDEX = self._TIMETABLE_LENGTH - 1
 
-    self.timetable = []
+    self._timetable = []
 
     for timetable in [_TIMETABLE_RH01, _TIMETABLE_M01]:
       if len(timetable) != self._TIMETABLE_LENGTH:
@@ -110,11 +110,11 @@ class CombinedRoutes:
     for hour in range(self._TIMETABLE_LENGTH):
       rh01 = set(_TIMETABLE_RH01[hour])
       m01 = set(_TIMETABLE_M01[hour])
-      self.timetable.append(sorted(rh01.union(m01)))
-      #print '{0:02d}: {1}'.format(hour, self.timetable[hour])
+      self._timetable.append(sorted(rh01.union(m01)))
+      #print '{0:02d}: {1}'.format(hour, self._timetable[hour])
 
   def GetTimetable(self):
-    return self.timetable
+    return self._timetable
 
   def GetTimetableLength(self):
     return self._TIMETABLE_LENGTH
@@ -139,7 +139,7 @@ class CombinedRoutes:
     service_available = False
 
     def _PrepareCandidates(hour):
-      services_of_the_hour = self.timetable[hour]
+      services_of_the_hour = self._timetable[hour]
       now = datetime.datetime.now()
       for service_minute in services_of_the_hour:
         service = datetime.datetime(now.year, now.month, now.day,
