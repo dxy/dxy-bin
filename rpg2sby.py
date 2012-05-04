@@ -19,8 +19,8 @@ only on weekdays.
 
 __author__ = 'dxy@acm.org (Daisuke Yabuki)'
 
-import argparse  # thus only supporting Python 2.7 or up
 import datetime
+import optparse
 import sys
 
 # Route: RH01, bound for Shibuya, weekdays
@@ -170,18 +170,16 @@ class CombinedRoutes:
 
 
 def main():
-  parser = argparse.ArgumentParser(description='Show the upcoming bus service '
-                                   'from Roppongi to Shibuya.')
-  parser.add_argument('--time', metavar='HH:MM', required=False,
-                      help='Pick a bus after this time.')
-  parser.add_argument('--lead_time', metavar='N', type=int, default=5,
-                      required=False,
-                      help=('Time to take for you to get to the bus stop'
-                            'in minutes.'))
-  parser.add_argument('--timetable', action='store_true',
-                      required=False, default=False,
-                      help='Show timetable.')
-  args = parser.parse_args()
+  parser = optparse.OptionParser(description='Show the upcoming bus service '
+                                 'from Roppongi to Shibuya.')
+  parser.add_option('--time', metavar='HH:MM',
+                    help='Pick a bus after this time.')
+  parser.add_option('--lead_time', metavar='N', type=int, default=5,
+                    help=('Time to take for you to get to the bus stop'
+                          'in minutes.'))
+  parser.add_option('--timetable', action='store_true', default=False,
+                    help='Show timetable.')
+  options, args = parser.parse_args()
 
   service = None
   route = CombinedRoutes()
@@ -189,9 +187,9 @@ def main():
   # TODO(dxy): check the day of the week and if it's not weekday,
   # bail out.
 
-  if args.time:
+  if options.time:
     try:
-      hour, minute = args.time.split(':')
+      hour, minute = options.time.split(':')
     except ValueError:
       sys.stderr.write('invalid time format')
       sys.exit(1)
@@ -208,7 +206,7 @@ def main():
     base_time = datetime.datetime.now()
 
   try:
-    service = route.PickService(base_time, args.lead_time)
+    service = route.PickService(base_time, options.lead_time)
   except NoServiceAvailable:
     sys.stderr.write('no service found')
 
@@ -217,7 +215,7 @@ def main():
                                                         service.minute)
 
   # TODO(dxy): make --timetable and others mutually-exclusive?
-  if args.timetable:
+  if options.timetable:
     timetable = route.GetTimetable()
     for hour in range(route.GetTimetableLength()):
       services = timetable[hour]
