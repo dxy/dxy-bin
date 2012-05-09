@@ -21,7 +21,7 @@ import socket
 import struct
 import sys
 
-def Number2Address(number):
+def Number2Ipv4Address(number):
   # upper_bound: 255 * (256 ** 3) + 255 * (256 ** 2) + 255 * 256 + 255
   #              = 4294967295
   upper_bound = 0xffffffff
@@ -34,13 +34,38 @@ def Number2Address(number):
   # TODO(dxy): IPv4 is so 20th century.
   return socket.inet_ntop(socket.AF_INET, packed_ip_address)
 
+def Number2Ipv6Address(number):
+
+  if number < 0:
+    print 'invalid number for ip address'
+    sys.exit(1)
+
+  # Q: unsigned long long (8-byte)
+  packed_ip_address = struct.pack("!QQ",
+                                  number >> 64,
+                                  number & 0xffffffffffffffff)
+  return socket.inet_ntop(socket.AF_INET6, packed_ip_address)
+
 def main():
+  usage = "usage: %prog [option] address_in_number"
+  parser = optparse.OptionParser(usage=usage)
+  parser.add_option("-4", "--ipv4", dest="address_family",
+                    action="store_const", const=4,
+                    help="IPv4 address is given.")
+  parser.add_option("-6", "--ipv6", dest="address_family",
+                    action="store_const", const=6,
+                    help="IPv6 address is given.")
+  (options, args) = parser.parse_args()
   try:
-    number = int(sys.argv[1])
+    #number = int(sys.argv[1])
+    number = int(args[0])
   except:
     print 'invalid value for ip address'
     sys.exit(1)
-  print Number2Address(number)
+  if options.address_family == 4:
+    print Number2Ipv4Address(number)
+  elif options.address_family == 6:
+    print Number2Ipv6Address(number)
 
 if __name__ == '__main__':
   main()
