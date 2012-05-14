@@ -26,7 +26,7 @@ def Number2Ipv4Address(number):
   #              = 4294967295
   upper_bound = 0xffffffff
   if number > upper_bound or number < 0:
-    print 'invalid number for ip address'
+    sys.stderr.write('invalid number for ip address\n')
     sys.exit(1)
 
   # !: network byte order (= big-endian), I: unsigned int
@@ -37,7 +37,7 @@ def Number2Ipv4Address(number):
 def Number2Ipv6Address(number):
 
   if number < 0:
-    print 'invalid number for ip address'
+    sys.stderr.write('invalid number for ip address\n')
     sys.exit(1)
 
   # Q: unsigned long long (8-byte)
@@ -60,12 +60,15 @@ def main():
     #number = int(sys.argv[1])
     number = int(args[0])
   except:
-    print 'invalid value for ip address'
+    sys.stderr.write('invalid value for ip address\n')
     sys.exit(1)
   if options.address_family == 4:
     print Number2Ipv4Address(number)
   elif options.address_family == 6:
     print Number2Ipv6Address(number)
+  else:
+    sys.stderr.write('invalid address family\n')
+    sys.exit(1)
 
 if __name__ == '__main__':
   main()
