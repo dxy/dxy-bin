@@ -1,0 +1,14 @@
+#!/bin/bash
+# 80-column rule rocks.
+# The original code is stolen shamelessly from Rob Pike's bin directory.
+
+echo 123456789_123456789_123456789_123456789_123456789_123456789_123456789_123456789_
+
+## If bash, you can do one of the following two,
+## but Pike's original code does its job and it's quick and simple.
+#for ((i=0; i <= 7; i++)); do
+## or
+#for _ in {0..7}; do
+#  echo -n 123456789_
+#done
+#echo ''
