@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # 80-column rule rocks.
 # The original code is stolen shamelessly from Rob Pike's bin directory.
 
