@@ -43,7 +43,7 @@ def TraverseProcfs():
       continue
     for directory in directories:
       if not _IsInteger(directory):
-	continue  # only care about /proc/${PID} directories.
+        continue  # only care about /proc/${PID} directories.
       oom_score_adj = _ReadProcfs(os.path.join(root, directory,
                                                   'oom_score_adj'))
       oom_score = _ReadProcfs(os.path.join(root, directory, 'oom_score'))
