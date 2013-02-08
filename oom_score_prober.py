@@ -45,7 +45,7 @@ def TraverseProcfs():
       if not _IsInteger(directory):
         continue  # only care about /proc/${PID} directories.
       oom_score_adj = _ReadProcfs(os.path.join(root, directory,
-                                                  'oom_score_adj'))
+                                               'oom_score_adj'))
       oom_score = _ReadProcfs(os.path.join(root, directory, 'oom_score'))
       # Some cmdline entry contains null chars (e.g. 'screen\0-x\0screenname').
       # It might be nice to put it in a pretty format.
@@ -61,6 +61,8 @@ def TraverseProcfs():
 
 
 def main():
+  if sys.version_info < (2, 7):
+    raise "only tested for 2.7 and up"
   procs = TraverseProcfs()
   for proc in procs:
     print "%s: %s/%s %s" % (proc['pid'],
