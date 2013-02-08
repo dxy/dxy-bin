@@ -62,10 +62,10 @@ def TraverseProcfs():
 
 def main():
   if sys.version_info < (2, 7):
-    raise "only tested for 2.7 and up"
+    raise 'only tested for 2.7 and up'
   procs = TraverseProcfs()
   for proc in procs:
-    print "%s: %s/%s %s" % (proc['pid'],
+    print '%s: %s/%s %s' % (proc['pid'],
                             proc['oom_score_adj'],
                             proc['oom_score'],
                             proc['cmdline'])
