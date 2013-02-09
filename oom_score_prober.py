@@ -37,8 +37,8 @@ def TraverseProcfs():
       sys.stderr('procfs entry not found: %s' % procfs_entry_pathname)
     return val
 
-  for root, directories, _procfs_files in os.walk(_PROCFS_ROOT):
-    # only care about proc info directory. not interested subdirectories.
+  for root, directories, unused_files in os.walk(_PROCFS_ROOT):
+    # only care about proc info directory. not interested in subdirectories.
     if root != _PROCFS_ROOT:
       continue
     for directory in directories:
