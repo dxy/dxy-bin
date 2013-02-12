@@ -32,8 +32,7 @@ def main():
                       help='an integer for the number of days from base date.')
   args = parser.parse_args()
   target = CalculateTargetDate(args.delta)
-  # TODO(dxy): print a bit more prettily?
-  print target
+  print target.strftime("%Y/%m/%d")
 
 if __name__ == '__main__':
   main()
