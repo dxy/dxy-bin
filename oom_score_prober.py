@@ -37,15 +37,15 @@ def TraverseProcfs():
       sys.stderr('procfs entry not found: %s' % procfs_entry_pathname)
     return val
 
-  for root, directories, _procfs_files in os.walk(_PROCFS_ROOT):
-    # only care about proc info directory. not interested subdirectories.
+  for root, directories, unused_files in os.walk(_PROCFS_ROOT):
+    # only care about proc info directory. not interested in subdirectories.
     if root != _PROCFS_ROOT:
       continue
     for directory in directories:
       if not _IsInteger(directory):
         continue  # only care about /proc/${PID} directories.
       oom_score_adj = _ReadProcfs(os.path.join(root, directory,
-                                                  'oom_score_adj'))
+                                               'oom_score_adj'))
       oom_score = _ReadProcfs(os.path.join(root, directory, 'oom_score'))
       # Some cmdline entry contains null chars (e.g. 'screen\0-x\0screenname').
       # It might be nice to put it in a pretty format.
@@ -61,9 +61,11 @@ def TraverseProcfs():
 
 
 def main():
+  if sys.version_info < (2, 7):
+    raise 'only tested for 2.7 and up'
   procs = TraverseProcfs()
   for proc in procs:
-    print "%s: %s/%s %s" % (proc['pid'],
+    print '%s: %s/%s %s' % (proc['pid'],
                             proc['oom_score_adj'],
                             proc['oom_score'],
                             proc['cmdline'])
