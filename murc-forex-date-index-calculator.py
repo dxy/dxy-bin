@@ -14,16 +14,17 @@ Sun, 2012/01/01 as 40909
 Mon, 2012/01/02 as 40910
 and so on.
 
-In order to get foreign exchange rate (TTM) for USDJPY, for example, for a given
-date, which is necessary to file a tax return including stock options and
-whatnot, you need to find a right index number for the date in the spreadsheet.
+In order to get foreign exchange rate (TTM) for USDJPY=X, for example, on a
+given date, which is necessary to file a tax return including stock options and
+whatnot, you need to find a right index number for data on a particular date
+in the spreadsheet.
 """
 
 __author__ = 'dxy@acm.org (Daisuke Yabuki)'
 
+import argparse
 import datetime
 import sys
-import argparse
 
 def main():
   def _IsInteger(val):
@@ -37,10 +38,10 @@ def main():
 
   parser = argparse.ArgumentParser()
   # Without this adjustment, 2012/01/01 turns out to be 40907, which is 2 days
-  # off. so the adjustment is made blindly in order to get the expected output.
-  parser.add_argument('--adjustment', metavar='n', nargs='?', type=int,
-                      default=2,
-                      help='adjustment value')
+  # off from what one sees on the spreadsheet. so the adjustment is made
+  # blindly in order to get the expected output.
+  parser.add_argument('--offset', metavar='n', nargs='?', type=int, default=2,
+                      help='offset value for adjustment')
   parser.add_argument('--date', metavar='YYYY-MM-DD',
                       help='the date to get the index value for.')
   args = parser.parse_args()
@@ -68,7 +69,7 @@ def main():
 
   epoch = datetime.datetime(1900, 1, 1)
   delta = t - epoch
-  print delta.days + args.adjustment  # to make 2012/01/01 match to 40909
+  print delta.days + args.offset  # to make 2012/01/01 match to 40909
 
 if __name__ == '__main__':
   main()
