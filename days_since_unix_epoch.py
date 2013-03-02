@@ -5,7 +5,7 @@
 """Calculate an index number for a given date.
 
 This calculates an index number for a given date, which is approximately
-equal to the number of days from UNIX epoch.
+equal to the number of days since Jan 1, 1900.
 
 A spreadsheet of daily foreign exchange rate which is downloadable via
 http://www.murc-kawasesouba.jp/fx/past_3month.php
@@ -57,7 +57,7 @@ def main():
       sys.exit(1)
 
   if int(year) < 1900:
-    sys.stderr.write('the date needs to be on or after UNIX epoch\n')
+    sys.stderr.write('the date needs to be in or after year 1900\n')
     sys.exit(1)
 
   try:
