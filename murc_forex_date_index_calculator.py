@@ -7,17 +7,17 @@
 This calculates an index number for a given date, which is approximately
 equal to the number of days since Jan 1, 1900.
 
-A spreadsheet of daily foreign exchange rate which is downloadable via
-http://www.murc-kawasesouba.jp/fx/past_3month.php
-shows each date as something as follows:
-Sun, 2012/01/01 as 40909
-Mon, 2012/01/02 as 40910
+An xls file of daily foreign exchange rate, murc_2012.xls, which is
+downloadable via http://www.murc-kawasesouba.jp/fx/past_3month.php
+shows each date as follows:
+40909 for Sun, 2012/01/01
+40910 for Mon, 2012/01/02
 and so on.
 
 In order to get foreign exchange rate (TTM) for USDJPY=X, for example, on a
-given date, which is necessary to file a tax return including stock options and
-whatnot, you need to find a right index number for data on a particular date
-in the spreadsheet.
+given date, which is necessary to file a tax return including income from
+stock options and/or ESOP, you need to find a right index number for data
+on a particular date in the xls file.
 """
 
 __author__ = 'dxy@acm.org (Daisuke Yabuki)'
@@ -67,9 +67,11 @@ def main():
     sys.stderr.write('invalid date\n')
     sys.exit(1)
 
-  epoch = datetime.datetime(1900, 1, 1)
-  delta = t - epoch
-  print delta.days + args.offset  # to make 2012/01/01 match to 40909
+  origin = datetime.datetime(1900, 1, 1)
+  delta = t - origin
+  print '%s %s' % (# to make 2012/01/01 match to 40909
+                   delta.days + args.offset,
+                   t.strftime('%a'))
 
 if __name__ == '__main__':
   main()
