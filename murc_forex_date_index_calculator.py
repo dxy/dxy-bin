@@ -48,7 +48,7 @@ def main():
 
   try:
     year, month, day = args.date.split('-')
-  except ValueError:
+  except (ValueError, AttributeError):
     sys.stderr.write('invalid date\n')
     sys.exit(1)
 
