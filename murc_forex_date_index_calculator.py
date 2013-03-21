@@ -26,6 +26,8 @@ import argparse
 import datetime
 import sys
 
+_ORIGIN = {'year': 1900, 'month': 1, 'day': 1}
+
 def main():
   def _IsInteger(val):
     try:
@@ -57,8 +59,9 @@ def main():
       sys.stderr.write('invalid date\n')
       sys.exit(1)
 
-  if int(year) < 1900:
-    sys.stderr.write('the date needs to be in or after year 1900\n')
+  if int(year) < _ORIGIN['year']:
+    sys.stderr.write('the date needs to be in or after year %d\n' %
+                      _ORIGIN['year'])
     sys.exit(1)
 
   try:
@@ -67,7 +70,7 @@ def main():
     sys.stderr.write('invalid date\n')
     sys.exit(1)
 
-  origin = datetime.datetime(1900, 1, 1)
+  origin = datetime.datetime(_ORIGIN['year'], _ORIGIN['month'], _ORIGIN['day'])
   delta = t - origin
   print '%s %s' % (# to make 2012/01/01 match to 40909
                    delta.days + args.offset,
