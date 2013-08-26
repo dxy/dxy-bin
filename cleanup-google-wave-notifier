@@ -1,0 +1,31 @@
+#!/bin/bash
+
+GOOGLE_WAVE_NOTIFIER_CHROME_EXTENSION_ID="aphncaagnlabkeipnbbicmcahnamibgb"
+
+case $(uname -s) in
+  Linux)
+    CHROME_DIR="${HOME}/.config/google-chrome"
+    ;;
+  Darwin)
+    CHROME_DIR="${HOME}/Library/Application Support/Google/Chrome"
+    ;;
+  *)
+    echo 'unknown architecture'
+    exit 1
+    ;;
+esac
+
+pushd ${CHROME_DIR}
+find . -maxdepth 1 -type d | while read -r dir; do
+  wave_notifier_candidate_dir="${dir}/Extensions/${GOOGLE_WAVE_NOTIFIER_CHROME_EXTENSION_ID}"
+  #echo "checking ${wave_notifier_candidate_dir}"
+  if [[ ! -d "${wave_notifier_candidate_dir}" ]]; then
+    # this is not a profile directory or this profile doesn't have the
+    # extension installed.
+    continue
+  fi
+  #echo 'found the extension.'
+  echo "removing ${wave_notifier_candidate_dir}"
+  rm -rf ${wave_notifier_candidate_dir}
+done
+
