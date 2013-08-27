@@ -15,7 +15,7 @@ case $(uname -s) in
     ;;
 esac
 
-pushd ${CHROME_DIR}
+pushd "${CHROME_DIR}" || exit 1
 find . -maxdepth 1 -type d | while read -r dir; do
   wave_notifier_candidate_dir="${dir}/Extensions/${GOOGLE_WAVE_NOTIFIER_CHROME_EXTENSION_ID}"
   #echo "checking ${wave_notifier_candidate_dir}"
@@ -25,7 +25,7 @@ find . -maxdepth 1 -type d | while read -r dir; do
     continue
   fi
   #echo 'found the extension.'
-  echo "removing ${wave_notifier_candidate_dir}"
+  #echo "removing ${wave_notifier_candidate_dir}"
   rm -rf ${wave_notifier_candidate_dir}
 done
 
