@@ -29,9 +29,8 @@ def TraverseProcfs():
 
   def _ReadProcfs(procfs_entry_pathname):
     try:
-      procfs_entry = open(procfs_entry_pathname)
-      val = procfs_entry.read().strip()
-      procfs_entry.close()
+      with open(procfs_entry_pathname, 'r') as procfs_entry:
+        val = procfs_entry.read().strip()
     except IOError:
       val = None
       sys.stderr('procfs entry not found: %s' % procfs_entry_pathname)
