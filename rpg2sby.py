@@ -170,8 +170,8 @@ class CombinedRoutes:
 
 
 def main():
-  parser = optparse.OptionParser(description='Show the upcoming bus service '
-                                 'from Roppongi to Shibuya.')
+  parser = optparse.OptionParser(description=('Show the upcoming bus service '
+                                              'from Roppongi to Shibuya.'))
   parser.add_option('--time', metavar='HH:MM',
                     help='Pick a bus after this time.')
   parser.add_option('--lead_time', metavar='N', type=int, default=5,
@@ -217,6 +217,7 @@ def main():
   # TODO(dxy): make --timetable and others mutually-exclusive?
   if options.timetable:
     timetable = route.GetTimetable()
+    # TODO(dxy): make this index-error prone.
     for hour in range(route.GetTimetableLength()):
       services = timetable[hour]
       services_of_the_hour  = ' '.join('{0:02d}'.format(service)

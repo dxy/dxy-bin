@@ -21,7 +21,7 @@ fi
 # TODO(dxy): handle directories (maybe afterwards?)
 for file in $(tar tf "${tarball}"); do
   if [[ -f "${file}" || -h "${file}" ]]; then
-    rm "${file}"
+    rm "${file:?ERROR}"
   else
     echo "skipping ${file}" >&2
   fi
