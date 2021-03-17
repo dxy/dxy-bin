@@ -29,13 +29,14 @@ func CleanUpFiles(d string, exp time.Duration, dry_run bool) {
 	}
 	for _, f := range files {
 		age := now.Sub(f.ModTime())
-		if age > exp {
-			fmt.Printf("%s eligible for deletion\n", f.Name())
-			if dry_run {
-				continue
-			}
-			os.Remove(filepath.Join(d, f.Name()))
+		if age < exp {
+			continue
 		}
+		fmt.Printf("%s eligible for deletion\n", f.Name())
+		if dry_run {
+			continue
+		}
+		os.Remove(filepath.Join(d, f.Name()))
 		// TODO: If older than N days (e.g. 3), keeping one daily (vs hourly) backup will suffice.
 	}
 }
